@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ article.title}} {% endblock %}
+{% block title %} {{ article.title }} {% endblock %}
 
 {% block body %}
 
@@ -15,7 +15,7 @@
                     <div class="article-detail col-sm-12">
                         <div class="col-sm-12 p-2">
                             <div class="media d-flex align-content-center">
-                                <img class="article-detail-image align-self-start mr-3 rounded" src=" {{ asset('images/article-3.jpg') }}">
+                                <img class="article-detail-image align-self-start mr-3 rounded" src="{{ asset('images/article-3.jpg') }}">
                                 <div class="media-body d-inline-block align-self-center">
                                     <h1 class="mb-2">{{ article.title }}</h1>
                                     <div class="d-flex mb-2">
@@ -23,7 +23,7 @@
                                             <img class="article-author-img rounded-circle mr-2" src="{{ article.src }}">
                                             {{ article.author }}
                                         </div>
-                                        <div class="text-muted align-self-center ml-4"><i class="fas fa-clock size-is-"></i> {{ article.clock }}</div>
+                                        <div class="text-muted align-self-center ml-4"><i class="fas fa-clock size-is-"></i>{{ article.clock }}</div>
                                     </div>
                                     <div class="mb-2 d-flex">
                                         {% for badge in article.badgies %}
@@ -101,7 +101,7 @@
                             <div class="row mt-2">
                                 <div class="col-sm-12">
                                     <div class="media">
-                                        <img class="align-self-start comment-img rounded-circle" src=" {{ asset('images/profile.png') }}">
+                                        <img class="align-self-start comment-img rounded-circle" src="{{ asset('images/profile.png') }}">
                                         <div class="media-body align-self-start col-sm-6">
                                             <b>Фронтенд Фулстков</b>
                                             <small>11 дней назад</small>
@@ -115,7 +115,7 @@
                             <div class="row mt-2">
                                 <div class="col-sm-12">
                                     <div class="media">
-                                        <img class="align-self-start comment-img rounded-circle" src=" {{ asset('images/profile.png') }}">
+                                        <img class="align-self-start comment-img rounded-circle" src="{{ asset('images/profile.png') }}">
                                         <div class="media-body align-self-start col-sm-6">
                                             <b>Барон Сосискин</b>
                                             <small>11 дней назад</small>
