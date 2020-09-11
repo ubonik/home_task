@@ -42,7 +42,7 @@
          */
         public function homepage()
         {
-            return $this->render("index.html.twig", ['articles' => $this->articles]);
+            return $this->render('index.html.twig', ['articles' => $this->articles]);
         }
 
         /**
