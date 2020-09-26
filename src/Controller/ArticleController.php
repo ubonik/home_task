@@ -1,7 +1,8 @@
 <?php
 
     namespace App\Controller;
-
+    use App\Homework\ArticleContentProviderInterface;
+    use App\Service\MarkdownParser;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\Routing\Annotation\Route;
 
@@ -37,20 +38,50 @@
             ]
         ];
 
+
         /**
          * @Route("/", name = "app_homepage")
          */
         public function homepage()
         {
-            return $this->render('index.html.twig', ['articles' => $this->articles]);
+           return $this->render('index.html.twig', ['articles' => $this->articles]);
         }
+
 
         /**
          * @Route("/articles/{slug}", name = "app_article_show")
          */
-        public function show($slug)
+        public function show($slug, MarkdownParser $markdownParser, ArticleContentProviderInterface $articleContentProvider)
         {
-               return $this->render('articles/detail.html.twig', ['article' => $article]);
+            /**
+             * foreach для вывода данных в статью для тестирования
+             */
+            $var = null;
+
+            foreach($this->articles as $key => $article){
+
+                if($slug == $key){
+
+                    $var = $key;
+                }
+            }
+            /**
+             * выбор случайного слова $word из массива $words
+             */
+            $words = ['кофе', 'молоко', 'чай', 'сок', 'вода', 'какао', 'пепси'];
+
+            $num = rand(1, 10);
+            $word = ($num <= 7) ? $words[array_rand($words)] : null;
+
+            $wordsCount = ($num <= 7) ? rand(5, 30) : 0;
+
+            $articleContent = $articleContentProvider->get(rand(2, 10),  $word, $wordsCount);
+
+            $articleContent = $markdownParser->parse($articleContent);
+
+            return $this->render('articles/detail.html.twig',['article' => $this->articles[$var],
+                 'articleContent' => $articleContent]);
+
         }
 
     }
