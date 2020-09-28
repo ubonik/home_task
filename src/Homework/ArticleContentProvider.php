@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Homework;
-
 
 class ArticleContentProvider implements ArticleContentProviderInterface
 {
@@ -10,7 +8,7 @@ class ArticleContentProvider implements ArticleContentProviderInterface
 
     public function __construct(bool $markArticleWordsWithBold)
     {
-      $this->markArticleWordsWithBold = $markArticleWordsWithBold;
+        $this->markArticleWordsWithBold = $markArticleWordsWithBold;
     }
 
     public function get(int $paragraphs, string $word = null, int $wordsCount = 0): string
@@ -62,30 +60,30 @@ class ArticleContentProvider implements ArticleContentProviderInterface
 
         ];
 
-      if(!$paragraphs){
+        if (!$paragraphs) {
 
             return '';
-      }
+        }
 
-            /**
+        /**
          *  Формируем текст из случайных параграфов в переменную $content,
          * если $word = null, или $wordsCount = 0, возврщаем $content
          */
         $items = [];
 
-        for($i = 0; $i <= $paragraphs; $i++){
+        for ($i = 0; $i <= $paragraphs; $i++) {
 
             $items[] = rand(0, count($text) - 1);
         }
 
         $content = '';
 
-        foreach($items as $item){
+        foreach ($items as $item) {
 
             $content .= ' ' . $text[$item];
         }
 
-        if(!$word || !$wordsCount){
+        if (!$word || !$wordsCount) {
 
             return $content;
         }
@@ -93,7 +91,7 @@ class ArticleContentProvider implements ArticleContentProviderInterface
         /**
          * Вставляем слово нужное количество раз
          */
-        if($this->markArticleWordsWithBold === true){
+        if ($this->markArticleWordsWithBold === true) {
 
             $word = '**' . $word . '**';
         } else {

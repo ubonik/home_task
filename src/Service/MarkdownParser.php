@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use Demontpx\ParsedownBundle\Parsedown;
 use Psr\Log\LoggerInterface;
@@ -32,7 +30,7 @@ class MarkdownParser
 
     public function parse(string $source): string
     {
-        if(stripos($source, 'кофе') !== false){
+        if (stripos($source, 'кофе') !== false) {
             $this->logger->info('Кажется эта статья о кофе');
         }
 
