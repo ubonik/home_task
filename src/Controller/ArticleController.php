@@ -2,8 +2,8 @@
 
     namespace App\Controller;
     use App\Homework\ArticleContentProviderInterface;
-    use App\Service\MarkdownParser;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Annotation\Route;
 
     class ArticleController extends AbstractController
@@ -43,13 +43,13 @@
          */
         public function homepage()
         {
-            return $this->render('index.html.twig', ['articles' => $this->articles]);
+            return $this->render('/article/homepage.html.twig', ['articles' => $this->articles]);
         }
 
         /**
-         * @Route("/articles/{slug}", name = "app_article_show")
+         * @Route("/article/{slug}", name = "app_article_show")
          */
-        public function show($slug, MarkdownParser $markdownParser, ArticleContentProviderInterface $articleContentProvider)
+        public function show($slug, ArticleContentProviderInterface $articleContentProvider)
         {
 
             if (isset($this->articles[$slug])) {
@@ -66,11 +66,25 @@
 
                 $articleContent = $articleContentProvider->get(rand(2, 10), $word, $wordsCount);
 
-                $articleContent = $markdownParser->parse($articleContent);
-
-                return $this->render('articles/detail.html.twig', ['article' => $this->articles[$slug],
+                return $this->render('article/detail.html.twig', ['article' => $this->articles[$slug],
                     'articleContent' => $articleContent]);
 
             }
         }
+
+        /**
+         * @Route("/articles/article_content")
+         */
+        public function showArticle(Request $request, ArticleContentProviderInterface $contentProvider)
+        {
+            $paragrafs = $request->query->get('paragrafs');
+            $word = $request->query->get('word');
+            $count = $request->query->get('count');
+
+            $content = $contentProvider->get($paragrafs, $word,  $count);
+
+            return $this->render('articles/article_content/index.html.twig', ['content' => $content]);
+
+        }
+
     }

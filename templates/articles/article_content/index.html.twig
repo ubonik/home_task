@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Генерация контента статьи</title>
+</head>
+<body>
+
+<form action="#" method="GET" name="g">
+<fieldset>
+<legend>Форма</legend>
+    <label>Количество параграфов  <input type ="number" name="paragrafs" value="{{ app.request.query.get('paragrafs') }}" ></label><br>
+    <label >Вставляемое слово  <input type="text" name="word" value="{{ app.request.query.get('word') }}"></label><br>
+    <label>Количество повторений вставляемого слова<input type ="number" name="count" value="{{ app.request.query.get('count') }}"></label><br>
+    <button type="submit">ввести</button>
+
+</fieldset>
+</form>
+
+{{ content | cached_markdown }}
+
+</body>
+</html>
