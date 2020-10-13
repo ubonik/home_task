@@ -1,6 +1,6 @@
 {% extends 'base_content.html.twig' %}
 {% block keywords %}{% if article.keywords %}{{ article.keywords }}{% endif %}{% endblock %}
-{% block title %} {{ article.title }} {% endblock %}
+{% block title %} {{ article.title }} - {% endblock %}
 
 {% block content_row_class %} {{ parent() }} no-gutters featured-border{% endblock %}
 {% block content_col_class %} {{ parent() }} article-detail{% endblock %}
@@ -26,9 +26,7 @@
             </div>
             <div class="mb-2">
                 <div class="text-muted align-self-center article-detail-arrows" data-id="voteBlock">
-                    <span class="{% if article.voteCount > 0 %}text-success {% elseif article.voteCount < 0 %}text-danger{% endif %}" data-id="voteCount">
-                        {{ article.voteCount }}
-                    </span>
+                    <span data-id="voteCount">{{ article.voteCount }}</span>
                     <button class="btn btn-success ml-3"  data-id="voteButton" data-href="{{ path('article_vote_up', {slug: article.slug}) }}">
                         <i class="fas fa-arrow-up"></i>
                     </button>
@@ -103,13 +101,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('js/vote.js') }}"></script>
-{% endblock %}
 {% endblock %}
 
 
