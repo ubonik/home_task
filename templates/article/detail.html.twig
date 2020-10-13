@@ -20,9 +20,16 @@
                 <div class="text-muted align-self-center ml-4"><i class="fas fa-clock size-is-"></i>{{ article.publishedAt ? article.publishedAt|ago : 'не опубликована' }}</div>
             </div>
             <div class="mb-2 d-flex">
-                {% for keyword in keywords %}
-                    <span class="badge badge-pill badge-secondary mr-2">{{ keyword }}</span>
-                 {% endfor %}
+                {% if article.keywords %}
+                    {% set keywords = article.keywords|split(',') %}
+                    {% for keyword in keywords %}
+                        <span class="badge badge-pill badge-secondary mr-2">
+                            {{ keyword }}
+                        </span>
+                    {% endfor %}
+                {% else %}
+                    <p>статья {{ article.slug }} не найдена</p>
+                {% endif %}
             </div>
             <div class="mb-2">
                 <div class="text-muted align-self-center article-detail-arrows" data-id="voteBlock">

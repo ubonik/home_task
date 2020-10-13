@@ -13,8 +13,9 @@ class ArticleVoteController extends AbstractController
      */
     public function up($slug, Article $article, EntityManagerInterface $em)
     {
-        $article->setVoteCount($article->getVoteCount() + 1);
+        $article->addVote();
         $em->flush();
+
         return $this->json(['votes' => $article->getVoteCount()]);
     }
 
@@ -23,8 +24,9 @@ class ArticleVoteController extends AbstractController
      */
     public function down($slug, Article $article, EntityManagerInterface $em)
     {
-        $article->setVoteCount($article->getVoteCount() - 1);
+        $article->removeVote();
         $em->flush();
+
         return $this->json(['votes' => $article->getVoteCount()]);
     }
 }

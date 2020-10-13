@@ -12,30 +12,21 @@
          /**
          * @Route("/", name = "app_homepage")
          */
-        public function homepage(ArticleRepository $repository)
+        public function homepage(ArticleRepository $articleRepository)
         {
-            $articles = $repository->findLatestPublished();
-            foreach ($articles as $article) {
-                if (!empty($article->getKeywords())) {
-                    $keywords = explode(',', $article->getKeywords());
-                }
-            }
-            return $this->render('/article/homepage.html.twig', ['articles' => $articles,'keywords' => $keywords ]);
+            $articles = $articleRepository->findLatestPublished();
+
+            return $this->render('/article/homepage.html.twig', ['articles' => $articles]);
         }
 
         /**
          * @Route("/article/{slug}", name = "app_article_show")
          */
-        public function show($slug, ArticleContentProviderInterface $articleContentProvider, ArticleRepository $repository)
+        public function show($slug, ArticleRepository $articleRepository)
         {
-            $article = $repository->findOneBy(['slug' => $slug]);
-            if (!$article) {
-                throw $this->createNotFoundException(sprintf('статья: %s не найдена', $slug));
-            }
+            $article = $articleRepository->findOneBy(['slug' => $slug]);
 
-            $keywords = explode(',', $article->getKeywords());
-
-                return $this->render('article/detail.html.twig', ['article' => $article, 'keywords' => $keywords]) ;
+            return $this->render('article/detail.html.twig', ['article' => $article]) ;
         }
 
         /**

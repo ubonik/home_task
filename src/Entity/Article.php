@@ -186,6 +186,17 @@ class Article
             'https://robohash.org/%s.png?set=set4',
             str_replace(' ', '-', $this->getAuthor())
         );
-
     }
+
+    public function addVote()
+    {
+        return $this->setVoteCount($this->getVoteCount() + 1);
+    }
+
+    public function removeVote()
+    {
+        return $this->setVoteCount($this->getVoteCount() - 1);
+    }
+
+
 }
