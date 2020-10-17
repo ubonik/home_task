@@ -64,19 +64,6 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->getOrCreateQueryBuilder($db)->orderBy('a.publishedAt', 'DESC');
     }
 
-
-
-    /*
-    public function findOneBySomeField($value): ?Article
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
     private function getOrCreateQueryBuilder(?QueryBuilder $db = null): QueryBuilder
     {
         return $db ?? $this->createQueryBuilder('a');
