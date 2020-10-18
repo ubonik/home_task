@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Homework\ArticleContentProviderInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class ArticleFixtures extends BaseFixtures
@@ -28,22 +29,29 @@ class ArticleFixtures extends BaseFixtures
         'article-3.jpeg',
     ];
 
+    /**
+     * @var ArticleContentProviderInterface
+     */
+    private $articleContent;
+
+    public function __construct(ArticleContentProviderInterface $articleContent)
+    {
+        $this->articleContent = $articleContent;
+    }
+
     public function loadData(ObjectManager $manager)
     {
         $this->createMany(Article::class, 10, function (Article $article) {
             $article
                 ->setTitle($this->faker->randomElement(self::$articleTitles))
-                ->setDescription('ut labore et dolore magna aliqua.
-                    Purus viverra accumsan in nisl.')
-                ->setBody("Lorem ipsum кофе dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt [Фронтенд Абсолютович](/) ut labore et dolore magna aliqua.
-            Purus viverra accumsan in nisl. Diam `vulputate` ut pharetra sit amet aliquam. Faucibus a
-            pellentesque sit amet porttitor eget dolor morbi non. Est ultricies integer quis auctor кофе
-            elit sed. Tristique nulla aliquet enim tortor at. Tristique et egestas quis ipsum. Consequat semper viverra nam
-            libero. Lectus quam id leo in vitae turpis. In eu mi bibendum neque egestas congue
-            quisque egestas diam. кофе blandit turpis cursus in hac habitasse platea dictumst quisque.")
+                ->setDescription($this->faker->text(100))
+                ->setBody($this->articleContent->get(
+                    $this->faker->numberBetween(2, 10),
+                    $this->faker->numberBetween(0, 9) > 2 ? $this->faker->word : '',
+                    $this->faker->numberBetween(5, 10)
+                ))
                 ->setAuthor($this->faker->randomElement(self::$articleAuthors))
-                ->setKeywords('tempor, incididunt, ipsum, sed')
+                ->setKeywords(join(', ', $this->faker->words($this->faker->numberBetween(2,10))))
                 ->setVotecount($this->faker->numberBetween(0, 10))
                 ->setImageFilename($this->faker->randomElement(self::$articleImages));
 
