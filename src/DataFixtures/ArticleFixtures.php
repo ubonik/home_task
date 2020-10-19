@@ -29,15 +29,13 @@ class ArticleFixtures extends BaseFixtures
         'article-3.jpeg',
     ];
 
-    /**
-     * @var ArticleContentProviderInterface
-     */
     private $articleContent;
 
     public function __construct(ArticleContentProviderInterface $articleContent)
     {
         $this->articleContent = $articleContent;
     }
+
 
     public function loadData(ObjectManager $manager)
     {
@@ -48,7 +46,8 @@ class ArticleFixtures extends BaseFixtures
                 ->setBody($this->articleContent->get(
                     $this->faker->numberBetween(2, 10),
                     $this->faker->numberBetween(0, 9) > 2 ? $this->faker->word : '',
-                    $this->faker->numberBetween(5, 10)
+                    $this->faker->numberBetween(5, 10),
+                    false
                 ))
                 ->setAuthor($this->faker->randomElement(self::$articleAuthors))
                 ->setKeywords(join(', ', $this->faker->words($this->faker->numberBetween(2,10))))
