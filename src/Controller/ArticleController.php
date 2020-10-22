@@ -16,6 +16,7 @@
         {
             $articles = $articleRepository->findLatestPublished();
 
+            
             return $this->render('/article/homepage.html.twig', ['articles' => $articles]);
         }
 
