@@ -26,7 +26,7 @@ class CommentRepository extends ServiceEntityRepository
         if ($search) {
             $db
                 ->andWhere('c.content LIKE :search OR c.authorName LIKE :search OR a.title LIKE :search')
-                ->setParameter('search', "%$search%")
+                ->setParameter('search', '%' . $search . '%')
             ;
         }
 
