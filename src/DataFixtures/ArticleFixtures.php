@@ -3,7 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
-use App\Homework\ArticleContentProviderInterface;
+use App\Entity\Comment;
+use App\Homework\CommentContentProviderInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class ArticleFixtures extends BaseFixtures
@@ -29,25 +30,23 @@ class ArticleFixtures extends BaseFixtures
         'article-3.jpeg',
     ];
 
-    private $articleContent;
+    private $commentContent;
 
-    public function __construct(ArticleContentProviderInterface $articleContent)
+    public function __construct(CommentContentProviderInterface $commentContent)
     {
-        $this->articleContent = $articleContent;
+        $this->commentContent = $commentContent;
     }
 
 
     public function loadData(ObjectManager $manager)
     {
-        $this->createMany(Article::class, 10, function (Article $article) {
+        $this->createMany(Article::class, 10, function (Article $article) use($manager) {
             $article
                 ->setTitle($this->faker->randomElement(self::$articleTitles))
                 ->setDescription($this->faker->text(100))
-                ->setBody($this->articleContent->get(
-                    $this->faker->numberBetween(2, 10),
+                ->setBody($this->commentContent->get(
                     $this->faker->numberBetween(0, 9) > 2 ? $this->faker->word : '',
-                    $this->faker->numberBetween(5, 10),
-                    false
+                    $this->faker->numberBetween(1, 5) ? : 0
                 ))
                 ->setAuthor($this->faker->randomElement(self::$articleAuthors))
                 ->setKeywords(join(', ', $this->faker->words($this->faker->numberBetween(2,10))))
@@ -57,7 +56,30 @@ class ArticleFixtures extends BaseFixtures
             if ($this->faker->boolean(60)) {
                 $article->setPublishedAt($this->faker->dateTimeBetween('-100 days', '-1 deys'));
             }
+
+            $this->addComment($article, $manager);
         });
+    }
+
+    /**
+     * @param Article $article
+     * @param ObjectManager $manager
+     */
+    public function addComment(Article $article, ObjectManager $manager): void
+    {
+        for ($i = 0; $i < $this->faker->numberBetween(2, 10); $i++) {
+
+            $comment = (new Comment())
+                ->setAuthorName('Усатый-Полосатый')
+                ->setContent($this->faker->paragraph())
+                ->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 day'))
+                ->setArticle($article);
+            if ($this->faker->boolean) {
+                $comment->setDeletedAt($this->faker->dateTimeThisMonth);
+            }
+
+            $manager->persist($comment);
+        }
     }
 
 }

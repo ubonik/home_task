@@ -3,6 +3,7 @@
     namespace App\Controller;
     use App\Homework\ArticleContentProviderInterface;
     use App\Repository\ArticleRepository;
+    use App\Repository\CommentRepository;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Annotation\Route;
@@ -12,11 +13,12 @@
          /**
          * @Route("/", name = "app_homepage")
          */
-        public function homepage(ArticleRepository $articleRepository)
+        public function homepage(ArticleRepository $articleRepository, CommentRepository $commentRepository)
         {
             $articles = $articleRepository->findLatestPublished();
+            $latestComments = $commentRepository->findBy([], [], 3);
 
-            return $this->render('/article/homepage.html.twig', ['articles' => $articles]);
+            return $this->render('/article/homepage.html.twig', ['articles' => $articles, 'latestComments' => $latestComments]);
         }
 
         /**
