@@ -25,7 +25,7 @@ class TagRepository extends ServiceEntityRepository
 
         if ($search) {
             $db
-                ->andWhere(' t.name LIKE :search OR t.slug LIKE :search')
+                ->andWhere(' t.name LIKE :search OR t.slug LIKE :search OR a.title LIKE :search')
                 ->setParameter('search', '%' . $search . '%')
             ;
         }
