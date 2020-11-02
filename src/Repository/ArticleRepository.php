@@ -26,9 +26,14 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findLatestPublished()
     {
-        $queryBuilder = $this->findPublished($this->findLatest());
-
-        return $queryBuilder;
+        return $this->published($this->latest())
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('c')
+            ->leftJoin('a.tags', 't')
+            ->addSelect('t')
+            ->getQuery()
+            ->getResult()
+        ;
     }
     /**
      * @return Article[] Returns an array of Article objects

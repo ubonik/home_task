@@ -1,5 +1,11 @@
 {% extends 'base_content.html.twig' %}
-{% block keywords %}{% if article.keywords %}{{ article.keywords }}{% endif %}{% endblock %}
+{% block keywords %}
+    {% if article.tags %}
+        {% for tag in article.tags %}
+            {{ tag.name }}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
 {% block title %} {{ article.title }} - {% endblock %}
 
 {% block content_row_class %} {{ parent() }} no-gutters featured-border{% endblock %}
@@ -20,16 +26,9 @@
                 <div class="text-muted align-self-center ml-4"><i class="fas fa-clock size-is-"></i>{{ article.publishedAt ? article.publishedAt|ago : 'не опубликована' }}</div>
             </div>
             <div class="mb-2 d-flex">
-                {% if article.keywords %}
-                    {% set keywords = article.keywords|split(',') %}
-                    {% for keyword in keywords %}
-                        <span class="badge badge-pill badge-secondary mr-2">
-                            {{ keyword }}
-                        </span>
-                    {% endfor %}
-                {% else %}
-                    <p>статья {{ article.slug }} не найдена</p>
-                {% endif %}
+
+                {% include 'partial/article_tags.html.twig' with { tags: article.tags }  %}
+
             </div>
             <div class="mb-2">
                 <div class="text-muted align-self-center article-detail-arrows" data-id="voteBlock">

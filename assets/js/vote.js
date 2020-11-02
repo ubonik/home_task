@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 $(function () {
 
     $('[data-id=voteBlock]').each(function () {

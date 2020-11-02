@@ -19,7 +19,7 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function findAllWithSearch(?string $search, bool $withSoftDeletes = false)
+    public function findAllWithSearchQuery(?string $search, bool $withSoftDeletes = false)
     {
         $db = $this->createQueryBuilder('c');
 
@@ -34,11 +34,7 @@ class CommentRepository extends ServiceEntityRepository
             $this->getEntityManager()->getFilters()->disable('softdeleteable');
         }
         return $db
-            ->innerJoin('c.article', 'a')
-            ->addSelect('a')
-            ->orderBy('c.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+             ->orderBy('c.createdAt', 'DESC');
     }
 
 }
