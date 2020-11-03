@@ -1,0 +1,50 @@
+{% extends 'base_content.html.twig' %}
+
+{% block title %}Spill-Coffee-On-The-Keyboard{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+<div class="col-12">
+
+    <div class="row border flex-md-row mb-4 shadow-sm bg-white p-4">
+        <div class="col-12 p-0">
+            <h1>Список тегов ({{ pagination.totalItemCount }})</h1>
+
+            {% include 'partial/form.html.twig' %}
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>название</th>
+                    <th>символьный код</th>
+                    <th>количество привязанных статей</th>
+                    <th>приязанные статьи</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tag in  pagination %}
+                <tr>
+                    <td>{{ tag.name }}</a></td>
+                    <td>{{ tag.slug }} {% if tag.deletedAt %}DELETED{% endif %}</td>
+                    <td> {{ tag.articles | length }}</td>
+                    <td>
+                        {% for article in tag.articles %}
+                            {{ article.title }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">Нет тегов</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

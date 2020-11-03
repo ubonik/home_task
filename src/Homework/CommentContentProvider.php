@@ -10,11 +10,12 @@ class CommentContentProvider implements CommentContentProviderInterface
     {
         $faker = Factory::create();
 
-        $paragraph = $faker->paragraph();
+        $paragraph = $faker->paragraph;
 
-        if (!$word || !$wordsCount) {
+        if (!$word || $wordsCount) {
 
             return $paragraph;
+
         }
 
         $arr = explode(' ', $paragraph);
