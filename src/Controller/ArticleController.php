@@ -28,7 +28,6 @@
         public function show($slug, ArticleRepository $articleRepository)
         {
             $article = $articleRepository->findOneBy(['slug' => $slug]);
-            //dd($article->getTags());
 
             return $this->render('article/detail.html.twig', ['article' => $article]) ;
         }
