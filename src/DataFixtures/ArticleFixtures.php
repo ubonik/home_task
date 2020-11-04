@@ -3,11 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
-use App\Entity\Comment;
+use App\Entity\Tag;
 use App\Homework\CommentContentProviderInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ArticleFixtures extends BaseFixtures
+class ArticleFixtures extends BaseFixtures  implements DependentFixtureInterface
 {
     private static $articleTitles = [
         'Есть ли жизнь после девятой жизни?',
@@ -50,36 +51,30 @@ class ArticleFixtures extends BaseFixtures
                 ))
                 ->setAuthor($this->faker->randomElement(self::$articleAuthors))
                 ->setKeywords(join(', ', $this->faker->words($this->faker->numberBetween(2,10))))
-                ->setVotecount($this->faker->numberBetween(0, 10))
+                ->setVotecount($this->faker->numberBetween(1, 10))
                 ->setImageFilename($this->faker->randomElement(self::$articleImages));
 
             if ($this->faker->boolean(60)) {
                 $article->setPublishedAt($this->faker->dateTimeBetween('-100 days', '-1 deys'));
             }
 
-            $this->addComment($article, $manager);
+            /** @var Tag[] $tags  */
+            $tags = [];
+            for ($i = 0; $i < $this->faker->numberBetween(0, 5); $i++) {
+                $tags[] = $this->getRandomReference(Tag::class);
+            }
+            foreach ($tags as $tag) {
+                $article->addTag($tag);
+            }
+
         });
     }
 
-    /**
-     * @param Article $article
-     * @param ObjectManager $manager
-     */
-    public function addComment(Article $article, ObjectManager $manager): void
+    public function getDependencies()
     {
-        for ($i = 0; $i < $this->faker->numberBetween(2, 10); $i++) {
-
-            $comment = (new Comment())
-                ->setAuthorName('Усатый-Полосатый')
-                ->setContent($this->faker->paragraph())
-                ->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 day'))
-                ->setArticle($article);
-            if ($this->faker->boolean) {
-                $comment->setDeletedAt($this->faker->dateTimeThisMonth);
-            }
-
-            $manager->persist($comment);
-        }
+        return [
+            TagFixtures::class,
+        ];
     }
 
 }
