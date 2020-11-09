@@ -14,6 +14,7 @@ final class Version20201014153527 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
+        $this->addSql('ALTER TABLE article ADD created_at DATETIME DEFAULT NULL, ADD updated_at DATETIME DEFAULT NULL');
         $this->addSql('UPDATE article set created_at = NOW(), updated_at = NOW()');
     }
 
