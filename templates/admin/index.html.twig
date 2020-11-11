@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <h2 class="mb-2">Административный раздел</h2>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a  class="nav-link" href="{{ path('app_admin_comments') }}">Комментарии</a>
+        </li>
+        <li class="nav-item">
+            <a  class="nav-link" href="{{ path('app_admin_tags') }}">Теги</a>
+        </li>
+    </ul>
+{% endblock %}
+
