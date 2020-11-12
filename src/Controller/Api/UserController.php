@@ -12,12 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/api/user", name="api_user")
+     * @Route("/api/v1/user", name="api_user")
      */
     public function index()
     {
-        return $this->json(
-            $this->getUser()
-        );
+        return $this->json($this->getUser(), 200, [], ['groups' => ['main']]);
     }
 }
