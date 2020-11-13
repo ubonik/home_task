@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use App\Entity\Tag;
+use App\Entity\User;
 use App\Homework\CommentContentProviderInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -15,14 +16,6 @@ class ArticleFixtures extends BaseFixtures  implements DependentFixtureInterface
         'Когда в машинах поставят лоток?',
         'В погоне за красной точкой',
         'В чем смысл жизни сосисок',
-    ];
-
-    private static $articleAuthors = [
-        'Николай',
-        'Mr. White',
-        'Барон Сосискин',
-        'Сметанка',
-        'Рыжик',
     ];
 
     private static $articleImages = [
@@ -49,7 +42,7 @@ class ArticleFixtures extends BaseFixtures  implements DependentFixtureInterface
                     $this->faker->numberBetween(0, 9) > 2 ? $this->faker->word : '',
                     $this->faker->numberBetween(1, 5) ? : 0
                 ))
-                ->setAuthor($this->faker->randomElement(self::$articleAuthors))
+                ->setAuthor($this->getRandomReference(User::class))
                 ->setKeywords(join(', ', $this->faker->words($this->faker->numberBetween(2,10))))
                 ->setVotecount($this->faker->numberBetween(1, 10))
                 ->setImageFilename($this->faker->randomElement(self::$articleImages));
@@ -74,6 +67,7 @@ class ArticleFixtures extends BaseFixtures  implements DependentFixtureInterface
     {
         return [
             TagFixtures::class,
+            UserFixtures::class
         ];
     }
 
