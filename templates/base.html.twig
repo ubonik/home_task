@@ -40,7 +40,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ path('app_account') }}">Профиль</a>
                             {% if is_granted('ROLE_ADMIN_ARTICLE') %}
-                            <a class="dropdown-item" href="{{ 'app_admin_articles_create' }}">Создать статью</a>
+                            <a class="dropdown-item" href="{{ path('app_admin_articles_create') }}">Создать статью</a>
                             {% elseif is_granted('ROLE_ADMIN_COMMENT') or is_granted('ROLE_ADMIN_TAG') %}
                             <a class="dropdown-item" href="{{ path('app_admin') }}">Админ</a>
                             {% endif %}
@@ -58,7 +58,21 @@
             </div>
         </div>
     </nav>
-        
+
+    {% if app.session.flashBag.peek('flash_message') | length > 0 %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-success" role="alert">
+                    {% for message in app.flashes('flash_message') %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
       <footer class="footer bg-white">
         <div class="container text-center">
             <span class="text-muted"><b>Spill-Coffee-On-The-Keyboard</b> - учебный проект для домашнего задания по курсу Symfony</span>
