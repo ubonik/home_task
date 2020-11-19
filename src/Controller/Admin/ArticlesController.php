@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticlesController extends AbstractController
 {
     /**
-     *  @IsGranted("ROLE_ADMIN_ARTICLE")
+     * @IsGranted("ROLE_ADMIN_ARTICLE")
      * @Route("/admin/articles", name="app_admin_articles")
      */
     public function index(ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator)
@@ -30,12 +30,11 @@ class ArticlesController extends AbstractController
             $articleRepository->findAllWithSearchQuery($request->query->get('q')),
             $request->query->getInt('page', 1),
             $request->query->getInt('p', 1)
-
         );
 
         return $this->render('/admin/articles/index.html.twig', [
-        'pagination' => $pagination
-    ]);
+            'pagination' => $pagination
+        ]);
     }
 
     /**
@@ -48,7 +47,7 @@ class ArticlesController extends AbstractController
 
         $form->handleRequest($request);
         /**
-         * @var $article
+         * @var Article $article
          */
         if ($form->isSubmitted() && $form->isValid()) {
             $article = $form->getData();
@@ -61,8 +60,9 @@ class ArticlesController extends AbstractController
             return $this->redirectToRoute('app_admin_articles');
         }
         return $this->render('/admin/article/create.html.twig', [
-            'articleForm' => $form->createView()
-            ]);
+            'articleForm' => $form->createView(),
+            'showError' => $form->isSubmitted()
+        ]);
     }
 
     /**
