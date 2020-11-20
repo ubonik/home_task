@@ -64,7 +64,7 @@ class ArticleRepository extends ServiceEntityRepository
        return $this->getOrCreateQueryBuilder($db)->andWhere('a.publishedAt IS NOT NULL');
     }
 
-    private function latest(QueryBuilder $db = null)
+    public function latest(QueryBuilder $db = null)
     {
         return $this->getOrCreateQueryBuilder($db)->orderBy('a.publishedAt', 'DESC');
     }
@@ -72,6 +72,23 @@ class ArticleRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(?QueryBuilder $db = null): QueryBuilder
     {
         return $db ?? $this->createQueryBuilder('a');
+    }
+
+    public function findAllWithSearchQuery(?string $search)
+    {
+        $db = $this->createQueryBuilder('a');
+
+        if ($search) {
+            $db
+                ->andWhere('a.title LIKE :search OR a.body LIKE :search OR u.firstName LIKE :search')
+                ->setParameter('search', '%' . $search . '%')
+            ;
+        }
+
+        return $db
+            ->leftJoin('a.author', 'u')
+            ->addSelect('u')
+            ->orderBy('a.createdAt', 'DESC');
     }
 
 }

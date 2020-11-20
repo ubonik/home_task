@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Spill-Coffee-On-The-Keyboard{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+<div class="col-12">
+
+    <div class="row border flex-md-row mb-4 shadow-sm bg-white p-4">
+        <div class="col-12 p-0">
+            <h1>Управление статьями ({{ pagination.totalItemCount }})</h1>
+            <div><a class="btn btn-primary" href="{{ path('app_admin_articles_create') }}">Создать новую статью</a></div>
+            <form>
+                <div class="input-group mb-3">
+                    <input type="text"
+                           name="q"
+                           class="form-control"
+                           placeholder="Найти..."
+                           value="{{ app.request.query.get('q') }}"
+                    >
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <select name="p">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <input type="submit">
+                </div>
+            </form>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Статья</th>
+                    <th>Описание</th>
+                    <th>Содержание</th>
+                    <th>Автор</th>
+                    <th>Опубликована</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for article in  pagination %}
+                <tr>
+                    <td><a href="{{ path('app_article_show', { slug: article.slug }) }}">{{ article.title }}</a></td>
+                    <td>{{ article.description }}</td>
+                    <td>{{ article.body }}</td>
+                    <td>{{ article.author.firstName }}</td>
+                    <td><i class="fa fa-{{ article.isPublished ? 'check text-primary'  : 'times text-warning' }}"></i></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">Нет статей</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

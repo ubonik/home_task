@@ -37,8 +37,8 @@ class ArticleVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case 'MANAGE':
+        if ($attribute === 'MANAGE') {
+
                 if ($subject->getAuthor() == $user) {
                     return true;
                 }
@@ -46,7 +46,6 @@ class ArticleVoter extends Voter
                 if ($this->security->isGranted('ROLE_ADMIN_ARTICLE')) {
                     return true;
                 }
-                break;
         }
 
         return false;

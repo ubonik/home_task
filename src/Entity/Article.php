@@ -188,6 +188,11 @@ class Article
         return $this;
     }
 
+    public function isPublished():bool
+    {
+        return null !== $this->getPublishedAt();
+    }
+
     public function getImagePath()
     {
         return 'images/' . $this->getImageFilename();
