@@ -8,9 +8,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @Assert\EnableAutoMapping()
  */
 class Article
 {
@@ -35,7 +38,22 @@ class Article
     private $slug;
 
     /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    protected $updatedAt;
+
+    /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\DisableAutoMapping()
      */
     private $description;
 
@@ -292,6 +310,19 @@ class Article
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @Assert\Callback()
+     * @param $payload
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if (mb_stripos($this->getTitle(), 'собак') !== false) {
+            $context->buildViolation('Про собак писать запрещено')
+                ->atPath('title')
+                ->addViolation();
+        }
     }
 
 }
