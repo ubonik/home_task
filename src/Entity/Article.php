@@ -13,11 +13,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
- * @Assert\EnableAutoMapping()
  */
 class Article
 {
     use TimestampableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,6 +27,12 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     * min = 3,
+     * minMessage = "Название статьи должно быть не менее {{ limit }} символов",
+     * allowEmptyString = false
+     * )
+     * @Assert\NotBlank(message="Название статьи не может быть пустым")
      */
     private $title;
 
@@ -38,27 +44,19 @@ class Article
     private $slug;
 
     /**
-     * @var \DateTime
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    protected $updatedAt;
-
-    /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\DisableAutoMapping()
+     * @Assert\Length(
+     * max = 100,
+     * maxMessage = "Описание статьи должно быть не более {{ limit }} символов",
+     *  allowEmptyString = false
+     * )
+     *@Assert\NotBlank(message="Описание статьи не может быть пустым")
      */
     private $description;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(message="Содержание статьи не может быть пустым")
      */
     private $body;
 
@@ -96,6 +94,7 @@ class Article
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Автор статьи не может быть пустым")
      */
     private $author;
 
@@ -115,7 +114,7 @@ class Article
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -206,7 +205,7 @@ class Article
         return $this;
     }
 
-    public function isPublished():bool
+    public function isPublished(): bool
     {
         return null !== $this->getPublishedAt();
     }
@@ -314,12 +313,11 @@ class Article
 
     /**
      * @Assert\Callback()
-     * @param $payload
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if (mb_stripos($this->getTitle(), 'собак') !== false) {
-            $context->buildViolation('Про собак писать запрещено')
+        if (is_numeric($this->getTitle()) !== false) {
+            $context->buildViolation('Поле не должно содержать цифры')
                 ->atPath('title')
                 ->addViolation();
         }

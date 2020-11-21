@@ -11,6 +11,7 @@
         <div class="col-12 p-0">
             <h1>Управление статьями ({{ pagination.totalItemCount }})</h1>
             <div><a class="btn btn-primary" href="{{ path('app_admin_articles_create') }}">Создать новую статью</a></div>
+            <div><a class="btn btn-primary" href="{{ path('app_admin_articles_edit', {id: 'id'}) }}">Редактировать статью</a></div>
             <form>
                 <div class="input-group mb-3">
                     <input type="text"

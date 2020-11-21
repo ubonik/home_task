@@ -29,15 +29,18 @@ class ArticleFormType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Название статьи',
-                'help' => 'Не используйте в названии слово "собака"'
+                'help' => 'Не используйте в названии цифры',
+                'required' => false
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Описание статьи',
-                'attr' => ['rows' => 3]
+                'attr' => ['rows' => 3],
+                'required' => false
             ])
             ->add('body', TextareaType::class, [
                 'label' => 'Содержимое статьи',
-                'attr' => ['rows' => 10]
+                'attr' => ['rows' => 10],
+                'required' => false
             ])
             ->add('publishedAt', null, [
                 'widget' => 'single_text',
@@ -54,7 +57,8 @@ class ArticleFormType extends AbstractType
                     return sprintf('%s (id: %d)', $user->getFirstName(), $user->getId());
                 },
                 'placeholder' => 'Выберите автора статьи',
-                'choices' => $this->userRepository->findAllSortedByName()
+                'choices' => $this->userRepository->findAllSortedByName(),
+                'required' => false
             ])
         ;
     }
