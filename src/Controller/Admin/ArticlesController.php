@@ -10,8 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -45,6 +45,40 @@ class ArticlesController extends AbstractController
     {
         $form = $this->createForm(ArticleFormType::class);
 
+        if ($article = $this->handleFormRequest($form, $em, $request)) {
+
+            $this->addFlash('flash_message', 'Статья успешно создана');
+
+            return $this->redirectToRoute('app_admin_article_edit', ['id' => $article->getId()]);
+        }
+        return $this->render('/admin/article/create.html.twig', [
+            'articleForm' => $form->createView(),
+            'showError' => $form->isSubmitted()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/articles/{id}/edit", name="app_admin_articles_edit")
+     * @IsGranted("MANAGE", subject="article")
+     */
+    public function edit(Article $article, EntityManagerInterface $em, Request $request)
+    {
+        $form = $this->createForm(ArticleFormType::class, $article);
+
+        if ($article = $this->handleFormRequest($form, $em, $request)) {
+
+            $this->addFlash('flash_message', 'Статья успешно изменена');
+
+            return $this->redirectToRoute('app_admin_articles_edit', ['id' => $article->getId()]);
+        }
+        return $this->render('/admin/article/edit.html.twig', [
+            'articleForm' => $form->createView(),
+            'showError' => $form->isSubmitted()
+        ]);
+    }
+
+    private function handleFormRequest(FormInterface $form, EntityManagerInterface $em, Request $request)
+    {
         $form->handleRequest($request);
         /**
          * @var Article $article
@@ -55,22 +89,9 @@ class ArticlesController extends AbstractController
             $em->persist($article);
             $em->flush();
 
-            $this->addFlash('flash_message', 'Статья успешно создана');
-
-            return $this->redirectToRoute('app_admin_articles');
+            return $article;
         }
-        return $this->render('/admin/article/create.html.twig', [
-            'articleForm' => $form->createView(),
-            'showError' => $form->isSubmitted()
-        ]);
-    }
 
-    /**
-     * @Route("/admin/articles/{id}/edit", name="app_admin_article_edit")
-     * @IsGranted("MANAGE", subject="article")
-     */
-    public function edit(Article $article)
-    {
-        return new Response('Страница редактирования статьи: ' . $article->getTitle());
+        return null;
     }
 }

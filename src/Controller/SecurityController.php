@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +22,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
@@ -37,17 +39,29 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $gard, LoginFormAuthenticator $authenticator)
+    public function register(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        GuardAuthenticatorHandler $gard,
+        LoginFormAuthenticator $authenticator,
+        EntityManagerInterface $em
+    )
     {
-        if ($request->isMethod('POST')) {
-            $user = new User();
+        $form = $this->createForm(UserRegistrationFormType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var User $user
+             */
+            $user = $form->getData();
 
             $user
-                ->setEmail($request->request->get('email'))
-                ->setFirstName($request->request->get('firstName'))
-                ->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
-
-            $em = $this->getDoctrine()->getManager();
+                ->setPassword($passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                ));
 
             $em->persist($user);
             $em->flush();
@@ -60,6 +74,9 @@ class SecurityController extends AbstractController
             );
 
         }
-        return $this->render('security/register.html.twig', ['error' => '']);
+
+        return $this->render('security/register.html.twig', [
+            'registrationForm' => $form->createView()
+        ]);
     }
 }
