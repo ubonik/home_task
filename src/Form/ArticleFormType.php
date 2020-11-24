@@ -26,6 +26,13 @@ class ArticleFormType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /**
+         * @var Article|null $article
+         */
+        $article = $options['data'] ?? null;
+
+        $cannotEditAuthor = $article && $article->getId() && $article->isPublished();
+
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Название статьи',
@@ -42,11 +49,6 @@ class ArticleFormType extends AbstractType
                 'attr' => ['rows' => 10],
                 'required' => false
             ])
-            ->add('publishedAt', null, [
-                'widget' => 'single_text',
-                'label' => 'Дата публикации статьи'
-
-            ])
             ->add('keyWords', TextType::class, [
                 'label' => 'Ключевые слова статьи'
             ])
@@ -58,15 +60,25 @@ class ArticleFormType extends AbstractType
                 },
                 'placeholder' => 'Выберите автора статьи',
                 'choices' => $this->userRepository->findAllSortedByName(),
-                'required' => false
+                'required' => false,
+                'disabled' => $cannotEditAuthor
             ])
         ;
+
+        if($options['enable_published_at']) {
+            $builder->
+            add('publishedAt', null, [
+                'widget' => 'single_text',
+                'label' => 'Дата публикации статьи'
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Article::class,
+            'enable_published_at' => false
         ]);
     }
 }

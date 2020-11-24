@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\model\UserRegistrationFormModel;
 use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,14 +54,17 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             /**
-             * @var User $user
+             * @var UserRegistrationFormModel $userModel
              */
-            $user = $form->getData();
+            $userModel = $form->getData();
+
+            $user = new User();
 
             $user
+                ->setEmail($userModel->email)
                 ->setPassword($passwordEncoder->encodePassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $userModel->plainPassword
                 ));
 
             $em->persist($user);
