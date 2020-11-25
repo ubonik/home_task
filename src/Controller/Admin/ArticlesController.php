@@ -49,7 +49,7 @@ class ArticlesController extends AbstractController
 
             $this->addFlash('flash_message', 'Статья успешно создана');
 
-            return $this->redirectToRoute('app_admin_article_edit', ['id' => $article->getId()]);
+            return $this->redirectToRoute('app_admin_articles_edit', ['id' => $article->getId()]);
         }
         return $this->render('/admin/article/create.html.twig', [
             'articleForm' => $form->createView(),
@@ -63,7 +63,7 @@ class ArticlesController extends AbstractController
      */
     public function edit(Article $article, EntityManagerInterface $em, Request $request)
     {
-        $form = $this->createForm(ArticleFormType::class, $article);
+        $form = $this->createForm(ArticleFormType::class, $article, ['enable_published_at' => true]);
 
         if ($article = $this->handleFormRequest($form, $em, $request)) {
 
