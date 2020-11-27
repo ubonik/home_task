@@ -12,5 +12,5 @@ import '../css/app.css';
 //import $ from 'jquery';
 
 require('bootstrap');
-
-import './vote';
+require('./vote.js') ;
+require('./bootstrap_file_field.js');

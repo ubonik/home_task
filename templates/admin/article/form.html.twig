@@ -1,4 +1,9 @@
 {{ form_start(articleForm) }}
+
+    {% if articleForm.vars.data.imageFilename %}
+        <img src="{{ articleForm.vars.data.imageFilename | imagine_filter('articles_preview') }}">
+    {% endif %}
+    {{ form_row(articleForm.image, { label: 'Изображение статьи', attr: {'placeholder': 'Выберите изображение'} }) }}
     {{ form_row(articleForm.title) }}
     {{ form_row(articleForm.description) }}
     {{ form_row(articleForm.body) }}
