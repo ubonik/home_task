@@ -210,11 +210,6 @@ class Article
         return null !== $this->getPublishedAt();
     }
 
-    public function getImagePath()
-    {
-        return 'images/' . $this->getImageFilename();
-    }
-
     public function getAuthorAvatarPath()
     {
         return sprintf(

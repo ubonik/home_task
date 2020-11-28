@@ -11,35 +11,42 @@
                     <div class="col-md-12 col-xl-8">
 
                         {% for article in articles %}
-                        <div class="article-container mb-2">
-                            <div class="row no-gutters border flex-md-row p-3 mb-4 shadow-sm">
-                                <div class="col-auto d-block">
-                                    <img class="article-img" src="{{ asset(article.imagePath) }}">
-                                </div>
-                                <a class="col px-4 d-flex flex-column article-item" href="{{ path('app_article_show', {slug: article.slug}) }}">
-                                    <h5 class="mb-2">{{ article.title }}</h5>
-                                    <div class="d-flex mb-2">
-                                        <div class="text-muted align-self-center"><img class="article-author-img rounded-circle" src="{{ article.author.avatarUrl }}">
-                                            {{ article.author.firstName }}</div>
-                                        <div class="text-muted align-self-center ml-3"><i class="fas fa-clock size-is-"></i>{{ article.publishedAt ? article.publishedAt|ago }}</div>
+                            <div class="article-container mb-2">
+                                <div class="row no-gutters border flex-md-row p-3 mb-4 shadow-sm">
+                                    <div class="col-auto d-block">
+                                        <img class="article-img"
+                                             src="{{ article.imageFilename | imagine_filter('articles_preview') }}">
                                     </div>
-                                    <div class="mb-2 d-flex">
-                                        <span class="badge badge-primary mr-2"><i class="fas fa-comment"></i>{{ article.nonDeletedComments|length }}</span>
-                                        <!--{% if article.keywords %}
+                                    <a class="col px-4 d-flex flex-column article-item"
+                                       href="{{ path('app_article_show', {slug: article.slug}) }}">
+                                        <h5 class="mb-2">{{ article.title }}</h5>
+                                        <div class="d-flex mb-2">
+                                            <div class="text-muted align-self-center"><img
+                                                        class="article-author-img rounded-circle"
+                                                        src="{{ article.author.avatarUrl }}">
+                                                {{ article.author.firstName }}</div>
+                                            <div class="text-muted align-self-center ml-3"><i
+                                                        class="fas fa-clock size-is-"></i>{{ article.publishedAt ? article.publishedAt|ago }}
+                                            </div>
+                                        </div>
+                                        <div class="mb-2 d-flex">
+                                            <span class="badge badge-primary mr-2"><i
+                                                        class="fas fa-comment"></i>{{ article.nonDeletedComments|length }}</span>
+                                            <!--{% if article.keywords %}
                                             {% set keywords = article.keywords|split(',') %}
                                             {% for keyword in keywords %}
                                                 <span class="badge badge-pill badge-secondary mr-2">{{ keyword }}</span>
                                             {% endfor %}
                                         {% endif %}-->
 
-                                        {% include 'partial/article_tags.html.twig' with { tags: article.tags }  %}
-                                    </div>
-                                    <div class="mb-2 text-muted">
-                                        <p>{{ article.description }}</p>
-                                    </div>
-                                </a>
+                                            {% include 'partial/article_tags.html.twig' with { tags: article.tags } %}
+                                        </div>
+                                        <div class="mb-2 text-muted">
+                                            <p>{{ article.description }}</p>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
                         {% endfor %}
 
                     </div>
@@ -51,11 +58,11 @@
                         <div class="quotes-container bg-white shadow-sm border border-top-0 pb-2 pt-2 px-5">
 
                             {% for comment in latestComments %}
-                            <div class="border-bottom mb-3">
-                                <div class="h4 text-left"># {{ comment.article.title }}</div>
-                                <p><i class="far fa-comment text-secondary"></i> {{ comment.content }}
-                                    <br> — <a href="#">Василий ПиЭйчПи, Программист Ruby</a></p>
-                            </div>
+                                <div class="border-bottom mb-3">
+                                    <div class="h4 text-left"># {{ comment.article.title }}</div>
+                                    <p><i class="far fa-comment text-secondary"></i> {{ comment.content }}
+                                        <br> — <a href="#">Василий ПиЭйчПи, Программист Ruby</a></p>
+                                </div>
                             {% endfor %}
 
                         </div>
@@ -64,4 +71,4 @@
             </div>
         </div>
     </div>
- {% endblock %}
+{% endblock %}
