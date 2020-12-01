@@ -14,6 +14,8 @@ class UserRegistrationFormModel
      */
     public $email;
 
+    public $firstName;
+
     /**
      * @Assert\NotBlank(message="Пароль не указан")
      * @Assert\Length(min="6", minMessage="Пароль должен быть не менее 6-ти символов")

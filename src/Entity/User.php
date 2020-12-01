@@ -59,6 +59,11 @@ class User implements UserInterface
      */
     private $articles;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $subscribeToNewsletter;
+
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
@@ -225,6 +230,18 @@ class User implements UserInterface
                 $article->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSubscribeToNewsletter(): ?bool
+    {
+        return $this->subscribeToNewsletter;
+    }
+
+    public function setSubscribeToNewsletter(?bool $subscribeToNewsletter): self
+    {
+        $this->subscribeToNewsletter = $subscribeToNewsletter;
 
         return $this;
     }
