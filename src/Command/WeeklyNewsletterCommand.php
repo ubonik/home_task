@@ -14,6 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class WeeklyNewsletterCommand extends Command
 {
+    protected static $defaultName = 'app:weekly-newsletter';
     /**
      * @var UserRepository
      */
@@ -35,8 +36,6 @@ class WeeklyNewsletterCommand extends Command
         $this->mailer = $mailer;
     }
 
-    protected static $defaultName = 'app:weekly-newsletter';
-
     protected function configure()
     {
         $this
@@ -45,14 +44,8 @@ class WeeklyNewsletterCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /**
-         * @var User[] $users
-         */
         $users = $this->userRepository->findAllSubscribedUsers();
 
-        /**
-         * @var Article[] $articles
-         */
         $articles = $this->articleRepository->findAllPublishedLastWeek();
 
         $io = new SymfonyStyle($input, $output);
@@ -68,8 +61,6 @@ class WeeklyNewsletterCommand extends Command
             $this->mailer->sendWeeklyNewsletter($user, $articles);
 
             $io->progressAdvance();
-
-            break;
         }
 
         $io->progressFinish();

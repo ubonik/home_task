@@ -35,6 +35,9 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Article[]
+     */
     public function findAllPublishedLastWeek()
     {
         return $this->published($this->latest())

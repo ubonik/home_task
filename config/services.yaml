@@ -9,6 +9,8 @@ parameters:
     artticle_uploads_dir: '%kernel.project_dir%/public/%article_uploads%'
     router.request_context.scheme: '%env(SITE_BASE_SCHEME)%'
     router.request_context.host: '%env(SITE_BASE_HOST)%'
+    app.site_name: '%env(SITE_NAME)%'
+    app.email_newsletter: '%env(EMAIL_NEWSLETTER)%'
 
 
 services:
