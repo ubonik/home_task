@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
+use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
 class PartialController extends AbstractController
 {
-    public function lastComments()
+    public function lastComments(CommentRepository $commentRepository)
     {
-        Scomments = ''
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/PartialController.php',
+        $comments = $commentRepository->findBy([], [], 3);
+
+        return $this->render('partial/last_comments.html.twig', [
+            'comments' => $comments
         ]);
     }
 }

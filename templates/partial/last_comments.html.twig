@@ -4,11 +4,11 @@
     </div>
     <div class="quotes-container bg-white shadow-sm border border-top-0 pb-2 pt-2 px-5">
 
-        {% for comment in latestComments %}
+        {% for comment in comments %}
             <div class="border-bottom mb-3">
                 <div class="h4 text-left"># {{ comment.article.title }}</div>
                 <p><i class="far fa-comment text-secondary"></i> {{ comment.content }}
-                    <br> — <a href="#">Василий ПиЭйчПи, Программист Ruby</a></p>
+                    <br> — <a href="#">{{ comment.authorName }}</a></p>
             </div>
         {% endfor %}
 
