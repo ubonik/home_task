@@ -1,0 +1,42 @@
+{% extends 'email/emailBase.html.twig' %}
+
+{% block content %}
+    <table class="head-wrap">
+        <tr>
+            <td class="header container">
+
+                <div class="content">
+                    <table>
+                        <tr>
+                            <td><h6 class="collapse">Добро пожаловать</h6></td>
+                            <td align="right"><a class="collapse" href="{{ url('app_homepage') }}">Spill-Coffee-On-The-Keyboard</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+
+
+    <table class="body-wrap">
+        <tr>
+            <td class="container">
+
+                <div class="content">
+                    <table>
+                        <tr>
+                            <td>
+                                <h1>Добро пожаловать, {{ email.toName }}!</h1>
+                                <p class="lead">Наконец-таки вы с нами. Переходите скорее на сайт.</p>
+                                <a class="btn" href="{{ url('app_homepage') }}" target="_blank">На сайт</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+{% endblock %}

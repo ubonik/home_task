@@ -20,9 +20,9 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-       /**
-        * @return Article[] Returns an array of Article objects
-        */
+    /**
+     * @return Article[] Returns an array of Article objects
+     */
 
     public function findLatestPublished()
     {
@@ -32,18 +32,30 @@ class ArticleRepository extends ServiceEntityRepository
             ->leftJoin('a.tags', 't')
             ->addSelect('t')
             ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function findAllPublishedLastWeek()
+    {
+        return $this->published($this->latest())
+            ->andWhere('a.publishedAt >= :week_ago')
+            ->setParameter('week_ago', new \DateTime('-2 week'))
+            ->getQuery()
             ->getResult()
         ;
     }
+
     /**
      * @return Article[] Returns an array of Article objects
      */
     public function findLatest()
     {
-            return  $this->latest()
-                ->getQuery()
-                ->getResult()
-            ;
+        return $this->latest()
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -55,13 +67,12 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $this->published()
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     private function published(QueryBuilder $db = null)
     {
-       return $this->getOrCreateQueryBuilder($db)->andWhere('a.publishedAt IS NOT NULL');
+        return $this->getOrCreateQueryBuilder($db)->andWhere('a.publishedAt IS NOT NULL');
     }
 
     public function latest(QueryBuilder $db = null)
@@ -81,8 +92,7 @@ class ArticleRepository extends ServiceEntityRepository
         if ($search) {
             $db
                 ->andWhere('a.title LIKE :search OR a.body LIKE :search OR u.firstName LIKE :search')
-                ->setParameter('search', '%' . $search . '%')
-            ;
+                ->setParameter('search', '%' . $search . '%');
         }
 
         return $db

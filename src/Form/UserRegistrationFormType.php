@@ -6,6 +6,7 @@ use App\Form\model\UserRegistrationFormModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,6 +16,10 @@ class UserRegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
+            ->add('firstName', TextType::class,[
+                'required' => false
+                ]
+            )
             ->add('plainPassword', PasswordType::class)
             ->add('agreeTerms', CheckboxType::class);
     }
