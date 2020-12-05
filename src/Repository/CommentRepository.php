@@ -26,15 +26,19 @@ class CommentRepository extends ServiceEntityRepository
         if ($search) {
             $db
                 ->andWhere('c.content LIKE :search OR c.authorName LIKE :search ')
-                ->setParameter('search', '%' . $search . '%')
-            ;
+                ->setParameter('search', '%' . $search . '%');
         }
 
         if ($withSoftDeletes) {
             $this->getEntityManager()->getFilters()->disable('softdeleteable');
         }
         return $db
-             ->orderBy('c.createdAt', 'DESC');
+            ->orderBy('c.createdAt', 'DESC');
+    }
+
+    public function findByLimit(int $limit)
+    {
+        return $this->findBy([], [], $limit);
     }
 
 }

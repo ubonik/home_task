@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\EventSubscriber;
-
 
 use App\Events\UserRegisteredEvent;
 use App\Service\Mailer;
@@ -20,7 +18,6 @@ class UserRegisteredSubscriber implements EventSubscriberInterface
         $this->mailer = $mailer;
     }
 
-
     public function onUserRegistered(UserRegisteredEvent $event)
     {
         $this->mailer->sendWelcomeMail($event->getUser());
@@ -32,7 +29,5 @@ class UserRegisteredSubscriber implements EventSubscriberInterface
             UserRegisteredEvent::class => 'onUserRegistered',
         ];
     }
-
-
 
 }
