@@ -1,12 +1,6 @@
 {
     "type": "project",
     "license": "proprietary",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "lib/HomeworkBundle"
-        }
-    ],
     "require": {
         "php": ">=7.2.5",
         "ext-ctype": "*",
