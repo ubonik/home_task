@@ -4,8 +4,32 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d002526e6bc138f6289516d913e046d",
+    "content-hash": "2adda8054b0d7073f35fb2dbd85f59a3",
     "packages": [
+        {
+            "name": "alex/homework-bundle",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "lib/HomeworkBundle",
+                "reference": "46419d8198c1aaff4186e796a6be0d432134d86a"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SymfonySkillbox\\HomeworkBundle\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Редкошеев Александр",
+                    "email": "liders05@mail.ru"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
         {
             "name": "behat/transliterator",
             "version": "v1.3.0",
@@ -3299,6 +3323,30 @@
                 "tree"
             ],
             "time": "2020-09-30T13:25:17+00:00"
+        },
+        {
+            "name": "symfony-skillbox-homework/unit-factory-bundle",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "lib/HomeworkBundle",
+                "reference": "46419d8198c1aaff4186e796a6be0d432134d86a"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SymfonySkillbox\\HomeworkBundle\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Редкошеев Александр",
+                    "email": "liders05@mail.ru"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "symfony/asset",
@@ -8779,7 +8827,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "alex/homework-bundle": 20,
+        "symfony-skillbox-homework/unit-factory-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

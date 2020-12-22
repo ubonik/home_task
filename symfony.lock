@@ -1,4 +1,7 @@
 {
+    "alex/homework-bundle": {
+        "version": "dev-master"
+    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -225,6 +228,9 @@
         "files": [
             "config/packages/stof_doctrine_extensions.yaml"
         ]
+    },
+    "symfony-skillbox-homework/unit-factory-bundle": {
+        "version": "dev-master"
     },
     "symfony/asset": {
         "version": "v5.1.5"

@@ -1,0 +1,10 @@
+symfony_skillbox_homework:
+  # Стратегия производства юнитов по умолчанию по силе (SymfonySkillbox\HomeworkBundle\StrengthStrategy)
+  # Стратегия производства юнитов по силе (symfony_skillbox_homework.strategy_health)
+  strategy: App\Homework\BillGatesStrategy
+  # Разрешено лHomeworkи производство солдат
+  enable_solder: true
+  # Разрешено ли производство лучников
+  enable_archer: true
+
+
