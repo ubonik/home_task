@@ -13,14 +13,10 @@ class StrengthStrategy implements StrategyInterface
                 $minCost = $unit->getCost();
             }
         }
-        if ($minCost > $resource) {
+        if ($minCost < $resource) {
 
-            return null;
-        } else {
             $maxStrengthUnit = $units[0];
-
             foreach ($units as $unit) {
-
                 if (($unit->getStrength() > $maxStrengthUnit->getStrength()) && ($unit->getCost() <= $resource)) {
                     $maxStrengthUnit = $unit;
                 }
@@ -29,6 +25,7 @@ class StrengthStrategy implements StrategyInterface
             return $maxStrengthUnit;
         }
 
+        return null;
     }
 
 }

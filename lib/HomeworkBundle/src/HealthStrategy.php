@@ -13,14 +13,10 @@ class HealthStrategy implements StrategyInterface
                 $minCost = $unit->getCost();
             }
         }
-        if ($minCost > $resource) {
+        if ($minCost < $resource) {
 
-            return null;
-        } else {
             $maxHealthUnit = $units[0];
-
             foreach ($units as $unit) {
-
                 if (($unit->getHealth() > $maxHealthUnit->getHealth()) && ($unit->getCost() <= $resource)) {
                     $maxHealthUnit = $unit;
                 }
@@ -29,6 +25,7 @@ class HealthStrategy implements StrategyInterface
             return $maxHealthUnit;
         }
 
+        return null;
     }
 
 }

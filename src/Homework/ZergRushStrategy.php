@@ -16,14 +16,10 @@ class ZergRushStrategy implements StrategyInterface
                 $minCost = $unit->getCost();
             }
         }
-        if ($minCost > $resource) {
+        if ($minCost < $resource) {
 
-            return null;
-        } else {
             $minCostUnit = $units[0];
-
             foreach ($units as $unit) {
-
                 if (($unit->getCost() < $minCostUnit->getCost()) && ($unit->getCost() <= $resource)) {
                     $minCostUnit = $unit;
                 }
@@ -32,6 +28,7 @@ class ZergRushStrategy implements StrategyInterface
             return $minCostUnit;
         }
 
+        return null;
     }
 
 }

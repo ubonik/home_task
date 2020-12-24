@@ -16,14 +16,10 @@ class BillGatesStrategy implements StrategyInterface
                 $minCost = $unit->getCost();
             }
         }
-        if ($minCost > $resource) {
+        if ($minCost < $resource) {
 
-            return null;
-        } else {
             $maxCostUnit = $units[0];
-
             foreach ($units as $unit) {
-
                 if (($unit->getCost() > $maxCostUnit->getCost()) && ($unit->getCost() <= $resource)) {
                     $maxCostUnit = $unit;
                 }
@@ -32,6 +28,7 @@ class BillGatesStrategy implements StrategyInterface
             return $maxCostUnit;
         }
 
+        return null;
     }
 
 }
