@@ -54,9 +54,4 @@ services:
 #        arguments:
 #            $uploadsPath: '/path/to/upload/avatar'
 
-
-
-
-     
-     
         
