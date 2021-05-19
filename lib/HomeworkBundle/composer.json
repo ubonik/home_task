@@ -1,0 +1,15 @@
+{
+    "name": "symfony-skillbox-homework/unit-factory-bundle",
+    "authors": [
+        {
+            "name": "Редкошеев Александр",
+            "email": "liders05@mail.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "SymfonySkillbox\\HomeworkBundle\\": "src/"
+        }
+    }
+}
